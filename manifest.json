@@ -1,27 +1,29 @@
 {
-  "name": "@deskpro-apps/my_app",
-  "title": "My App",
-  "description": "My Deskpro app",
-  "version": "1.0.0",
+  "name": "@deskpro-apps/teamviewer",
+  "title": "TeamViewer",
+  "description": "TeamViewer app",
+  "version": "1.0.1",
   "scope": "agent",
   "isSingleInstall": false,
+  "hasDevMode": true,
   "targets": [{
     "target": "ticket_sidebar",
-    "entrypoint": "index.html"
-  }],
-  "settings": {
-    "example": {
-      "title": "Example Setting",
-      "description": "Example backend only setting",
-      "type": "string",
-      "isRequired": false,
-      "isBackendOnly": true
+    "entrypoint": "index.html",
+    "options": {
+      "actions": {
+        "linkTicket": {
+          "type": "ticket_addition",
+          "title": "TeamViewer Session",
+          "description": "Create a TeamViewer session"
+        }
+      }
     }
-  },
+  }],
+  "settings": {},
   "proxy": {
     "whitelist": [{
       "url": "https://example.com/.*",
-      "methods": ["GET", "POST", "PUT"],
+      "methods": ["GET", "POST"],
       "timeout": 10
     }]
   }

@@ -19,9 +19,26 @@
       }
     }
   }],
-  "settings": {},
+  "settings": {
+    "client_id": {
+      "title": "Client ID",
+      "type": "string",
+      "isRequired": true,
+      "isBackendOnly": false
+    },
+    "client_secret": {
+      "title": "Client secret",
+      "type": "string",
+      "isRequired": true,
+      "isBackendOnly": true
+    }
+  },
   "proxy": {
     "whitelist": [{
+      "url": "https://login.teamviewer.com/oauth2/authorize",
+      "methods": ["GET"],
+      "timeout": 10
+    }, {
       "url": "https://example.com/.*",
       "methods": ["GET", "POST"],
       "timeout": 10

@@ -2,7 +2,7 @@ import { P, match } from "ts-pattern";
 import { State, Action, StoreReducer } from "./types";
 
 export const initialState: State = {
-    isAuth: false,
+    isAuth: true,
     _error: undefined,
 };
 

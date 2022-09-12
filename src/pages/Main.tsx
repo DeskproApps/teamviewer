@@ -5,9 +5,11 @@ import {
     useDeskproAppEvents,
     useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
+import { pingService } from "../services/teamviewer";
 import { useStore } from "../context/StoreProvider/hooks";
 import { HomePage } from "./HomePage";
-import { LogInPage } from "./LogInPage";
+import { GlobalSignIn } from "./GlobalSignIn";
+import { ErrorBlock } from "../components/common";
 
 export const Main = () => {
     const [state, dispatch] = useStore();
@@ -23,6 +25,15 @@ export const Main = () => {
         });
     });
 
+    useInitialisedDeskproAppClient((client) => {
+        pingService(client)
+            .then(({ token_valid }) => {
+                dispatch({ type: "setAuth", isAuth: token_valid });
+                dispatch({ type: "changePage", page: "home" });
+            })
+            .catch(() => dispatch({ type: "setAuth", isAuth: false }))
+    }, []);
+
     useDeskproAppEvents({
         onShow: () => {
             client && setTimeout(() => client.resize(), 200);
@@ -32,15 +43,22 @@ export const Main = () => {
         },
     }, [client]);
 
-    const page = !state.isAuth
-        ? <LogInPage/>
-        : match(state.page)
+    if (!state.page) {
+        return <GlobalSignIn/>;
+    }
+
+    const page = match(state.page)
             .with("home", () => <HomePage/>)
-            .with("log_in", () => <LogInPage/>)
-            .otherwise(() => <LogInPage/>)
+            .otherwise(() => <HomePage/>)
 
     return (
         <>
+            {state._error && (
+                <ErrorBlock text="An error occurred" />
+            )}
+            {!state.isAuth && (
+                <ErrorBlock text="Go back to the admin settings form for the app and re-auth from there" />
+            )}
             {page}
         </>
     );

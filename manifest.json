@@ -24,13 +24,25 @@
       "title": "Client ID",
       "type": "string",
       "isRequired": true,
-      "isBackendOnly": false
+      "isBackendOnly": false,
+      "order": 10
     },
     "client_secret": {
       "title": "Client secret",
       "type": "string",
       "isRequired": true,
-      "isBackendOnly": true
+      "isBackendOnly": true,
+      "order": 20
+    },
+    "global_access_token": {
+      "title": "",
+      "type": "app_embedded",
+      "options": {
+        "entrypoint": "http://localhost:3001/#/admin/global-sign-in"
+      },
+      "isRequired": true,
+      "isBackendOnly": true,
+      "order": 30
     }
   },
   "proxy": {
@@ -39,7 +51,7 @@
       "methods": ["GET"],
       "timeout": 10
     }, {
-      "url": "https://example.com/.*",
+      "url": "https://webapi.teamviewer.com/api/v1/*",
       "methods": ["GET", "POST"],
       "timeout": 10
     }]

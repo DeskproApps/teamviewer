@@ -5,7 +5,8 @@ export type ErrorType = Error | string | unknown;
 
 export type Page =
     | "home"
-    | "log_in";
+    | "log_in"
+    | null;
 
 export type PageParams = {
     //...

@@ -1,27 +1,58 @@
 {
-  "name": "@deskpro-apps/my_app",
-  "title": "My App",
-  "description": "My Deskpro app",
-  "version": "1.0.0",
+  "name": "@deskpro-apps/teamviewer",
+  "title": "TeamViewer",
+  "description": "Create TeamViewer sessions and share them with your users in ticket",
+  "version": "1.0.1",
   "scope": "agent",
   "isSingleInstall": false,
+  "hasDevMode": true,
   "targets": [{
     "target": "ticket_sidebar",
-    "entrypoint": "index.html"
+    "entrypoint": "index.html",
+    "options": {
+      "actions": {
+        "linkTicket": {
+          "type": "ticket_addition",
+          "title": "TeamViewer Session",
+          "description": "Create a TeamViewer session"
+        }
+      }
+    }
   }],
   "settings": {
-    "example": {
-      "title": "Example Setting",
-      "description": "Example backend only setting",
+    "client_id": {
+      "title": "Client ID",
       "type": "string",
-      "isRequired": false,
-      "isBackendOnly": true
+      "isRequired": true,
+      "isBackendOnly": false,
+      "order": 10
+    },
+    "client_secret": {
+      "title": "Client secret",
+      "type": "string",
+      "isRequired": true,
+      "isBackendOnly": true,
+      "order": 20
+    },
+    "global_access_token": {
+      "title": "",
+      "type": "app_embedded",
+      "options": {
+        "entrypoint": "http://localhost:3001/#/admin/global-sign-in"
+      },
+      "isRequired": true,
+      "isBackendOnly": true,
+      "order": 30
     }
   },
   "proxy": {
     "whitelist": [{
-      "url": "https://example.com/.*",
-      "methods": ["GET", "POST", "PUT"],
+      "url": "https://login.teamviewer.com/oauth2/authorize",
+      "methods": ["GET"],
+      "timeout": 10
+    }, {
+      "url": "https://webapi.teamviewer.com/api/v1/*",
+      "methods": ["GET", "POST"],
       "timeout": 10
     }]
   }

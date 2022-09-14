@@ -1,4 +1,8 @@
-My App
+Description
 ======
 
-todo: add a description that will appear alongside your app in Deskpro admin
+Make and share sessions without having to leave your Deskpro ticket
+
+**Create sessions:** Use this integration to create new sessions to allow screen sharing with your users
+
+**Share sessions:** Insert session information into your messages to simplify the sharing process

@@ -1,7 +1,7 @@
 import { DeskproAppProvider } from "@deskpro/app-sdk";
+import { HashRouter } from "react-router-dom";
 import { StoreProvider } from "./context/StoreProvider";
 import { Main } from "./pages/Main";
-import "./App.css";
 
 import "iframe-resizer/js/iframeResizer.contentWindow.js";
 import "flatpickr/dist/themes/light.css";
@@ -15,7 +15,9 @@ function App() {
     return (
         <DeskproAppProvider>
             <StoreProvider>
-                <Main />
+                <HashRouter>
+                    <Main />
+                </HashRouter>
             </StoreProvider>
         </DeskproAppProvider>
     );

@@ -43,7 +43,7 @@ const baseRequest: Request = async (client, {
         },
     });
 
-    if ([400, 401].includes(res.status)) {
+    if ([401].includes(res.status)) {
         const preRequestOptions: RequestInit = {
             method: "POST",
             body: new URLSearchParams({
@@ -72,7 +72,7 @@ const baseRequest: Request = async (client, {
             headers: {
                 ...headers,
                 ...customHeaders,
-                "Authorization": `Bearer [[oauth/global/accesstoken]]`,
+                "Authorization": `Bearer ${refreshData.access_token}]`,
             },
         });
     }

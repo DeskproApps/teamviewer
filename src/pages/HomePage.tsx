@@ -1,5 +1,6 @@
 import { FC, useState, useEffect, useCallback } from "react";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
     H3,
     Stack,
@@ -56,7 +57,9 @@ const ActiveSessions = ({ sessions, onCreate, onDelete }: ActiveSessionsProps) =
                 <SessionTitle title={code} link={end_customer_link} />
                 <TextBlockWithLabel label="Created" text={getDate(created_at)} />
                 <Stack justify="space-between" style={{ width: "100%", marginBottom: "14px" }}>
-                    {/*<Button text="Insert Link" intent="secondary" />*/}
+                    <CopyToClipboard text={end_customer_link}>
+                        <Button text="Copy link" intent="secondary" type="button" />
+                    </CopyToClipboard>
                     <Button text="Delete" intent="secondary" onClick={() => onDelete(code)} />
                 </Stack>
                 <HorizontalDivider style={{ width: "100%" }}/>
@@ -132,7 +135,7 @@ const HomePage: FC = () => {
     const onCreate = useCallback(() => {
         if (!client) { return }
 
-        setLoading(true);
+        /*setLoading(true);
         createSessionService(client)
             .then(() => {
                 // ToDo: handle response
@@ -140,7 +143,7 @@ const HomePage: FC = () => {
             })
             .then(({ sessions }) => dispatch({ type: "setSessions", sessions }))
             .catch((error) => dispatch({ type: "error", error }))
-            .finally(() => setLoading(false));
+            .finally(() => setLoading(false));*/
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [client]);
 

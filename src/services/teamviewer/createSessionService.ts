@@ -7,6 +7,9 @@ const createSessionService = (client: IDeskproClient) => {
         url: "/sessions",
         method: "POST",
         data: { groupname: "Deskpro" },
+        headers: {
+            "X-Proxy-Redirect-As-Success": "1"
+        },
     })
 };
 

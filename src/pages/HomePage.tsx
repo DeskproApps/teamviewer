@@ -8,7 +8,11 @@ import {
     useDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { useStore } from "../context/StoreProvider/hooks";
-import { getSessionsService, closeSessionService } from "../services/teamviewer";
+import {
+    getSessionsService,
+    closeSessionService,
+    createSessionService,
+} from "../services/teamviewer";
 import {
     Title,
     TwoColumn,
@@ -127,6 +131,16 @@ const HomePage: FC = () => {
 
     const onCreate = useCallback(() => {
         if (!client) { return }
+
+        setLoading(true);
+        createSessionService(client)
+            .then(() => {
+                // ToDo: handle response
+                return getSessionsService(client)
+            })
+            .then(({ sessions }) => dispatch({ type: "setSessions", sessions }))
+            .catch((error) => dispatch({ type: "error", error }))
+            .finally(() => setLoading(false));
     }, [client]);
 
     const onDelete = useCallback((code) => {

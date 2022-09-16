@@ -141,6 +141,7 @@ const HomePage: FC = () => {
             .then(({ sessions }) => dispatch({ type: "setSessions", sessions }))
             .catch((error) => dispatch({ type: "error", error }))
             .finally(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [client]);
 
     const onDelete = useCallback((code) => {

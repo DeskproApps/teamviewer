@@ -12,7 +12,7 @@ import { useStore } from "../context/StoreProvider/hooks";
 import {
     getSessionsService,
     closeSessionService,
-    createSessionService,
+    // createSessionService,
 } from "../services/teamviewer";
 import {
     Title,

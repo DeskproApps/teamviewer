@@ -56,7 +56,7 @@ const Login = ({ url, isLoading, signIn, cancel }: { url: string, isLoading: boo
     return (
         <>
             <P1 style={{ marginBottom: "6px" }}>
-                This Salesforce user account will be used by all Deskpro agents
+                This TeamViewer user account will be used by all Deskpro agents
             </P1>
             <AnchorButton
                 href={url}
@@ -86,7 +86,7 @@ const Logout = ({ signOut, user }: { user: Account, signOut: () => void }) => {
     return (
         <>
             <P1 style={{ marginBottom: "6px" }}>
-                Signed-in as <span style={{ color: theme.colors.grey100 }}>{user.name} {`<${user.email}>`}</span>
+                Signed-in as <span style={{ color: theme.colors.grey100 }}>{user.name} {user.email ? `<${user.email}>` : ""}</span>
             </P1>
             <Button text="Sign-out" intent="secondary" icon={faSignOut} onClick={signOut} />
         </>

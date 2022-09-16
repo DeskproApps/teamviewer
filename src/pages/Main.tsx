@@ -1,11 +1,10 @@
-import { useEffect, Suspense } from "react";
+import { Suspense } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import {
     Stack,
     Button,
-    Context,
     useDeskproAppClient,
     useDeskproAppEvents,
     useDeskproLatestAppContext,
@@ -16,7 +15,7 @@ import { useStore } from "../context/StoreProvider/hooks";
 import { LoadingPage } from "./LoadingPage";
 import { HomePage } from "./HomePage";
 import { GlobalSignIn } from "./GlobalSignIn";
-import { ErrorBlock, Loading } from "../components/common";
+import { ErrorBlock } from "../components/common";
 
 export const Main = () => {
     const { context } = useDeskproLatestAppContext();
@@ -25,8 +24,6 @@ export const Main = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { pathname } = location;
-
-    console.log(">>> main:pathname:", pathname);
 
     if (state._error) {
         console.error(`TeamViewer: ${state._error}`);
@@ -51,9 +48,6 @@ export const Main = () => {
         onShow: () => {
             client && setTimeout(() => client.resize(), 200);
         },
-        onElementEvent: (id, type, payload) => {
-            console.log(">>> onElementEvent", { id, type, payload });
-        }
     }, [client]);
 
     // We don't have a context in admin that we care about, so just load the page straight away
@@ -69,6 +63,7 @@ export const Main = () => {
             {!state.isAuth && (
                 <ErrorBlock text="Go back to the admin settings form for the app and re-auth from there" />
             )}
+            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore */}
             <ErrorBoundary fallbackRender={({ error, resetErrorBoundary }) => {
                 if (state._error) {

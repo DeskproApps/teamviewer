@@ -1,5 +1,6 @@
 import { Reducer } from "react";
 import { Context } from "@deskpro/app-sdk";
+import { Session } from "../../services/teamviewer/types";
 
 export type ErrorType = Error | string | unknown;
 
@@ -17,6 +18,7 @@ export interface State {
     pageParams?: PageParams,
     context?: Context,
     isAuth: boolean,
+    sessions?: Session[],
     //...
     _error?: ErrorType,
 }
@@ -25,7 +27,8 @@ export type Action =
     | { type: "changePage", page: Page, params?: PageParams }
     | { type: "loadContext", context: Context }
     | { type: "error", error: ErrorType }
-    | { type: "setAuth", isAuth: boolean };
+    | { type: "setAuth", isAuth: boolean }
+    | { type: "setSessions", sessions: Session[] };
 
 export type Dispatch = (action: Action) => void;
 

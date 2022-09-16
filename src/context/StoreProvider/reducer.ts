@@ -25,6 +25,10 @@ export const reducer: StoreReducer = (state: State, action: Action): State => {
             ...prevState,
             isAuth: action.isAuth,
         }))
+        .with([P._, { type: "setSessions" }], ([prevState, action]) => ({
+            ...prevState,
+            sessions: action.sessions,
+        }))
         .otherwise(() => state);
 };
 

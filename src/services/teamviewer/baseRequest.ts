@@ -10,7 +10,7 @@ const baseRequest: Request = async (client, {
     data = {},
     method = "GET",
     queryParams = {},
-    headers: customHeaders
+    headers: customHeaders,
 }) => {
     const dpFetch = await proxyFetch(client);
 

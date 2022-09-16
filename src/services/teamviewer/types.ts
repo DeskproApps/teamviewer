@@ -1,5 +1,8 @@
 import { IDeskproClient } from "@deskpro/app-sdk";
 
+/**  An ISO-8601 encoded UTC date time string. Example value: `""2019-09-07T15:50:00Z"` */
+export type DateTime = string;
+
 export type Settings = {
     client_id?: string,
     client_secret?: string,
@@ -11,11 +14,12 @@ export type AuthTokens = {
     refreshToken: string,
 };
 
-export type ApiRequestMethod = "GET" | "POST";
+export type ApiRequestMethod = "GET" | "POST" | "PUT";
 
 export type RequestParams = {
     url?: string,
     rawUrl?: string,
+    checkXStatus?: boolean,
     method?: ApiRequestMethod,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data?: Record<string, any>,
@@ -48,4 +52,29 @@ export type Account = {
     company_name?: string,
     email_validated?: boolean,
     mail_language?: string,
+};
+
+export type SessionState = "Open" | "Closed";
+
+export type SessionType = "Default" | "Pilot";
+
+export type Session = {
+    code: string,
+    state: SessionState,
+    assigned_userid: string,
+    assigned_at: DateTime,
+    created_at: DateTime,
+    closed_at: DateTime,
+    valid_until: DateTime,
+    groupid: string,
+    online: boolean,
+    support_session_type: SessionType,
+    end_customer_link: string,
+    supporter_link: string,
+};
+
+export type UserMinimal = {
+    id: string,
+    name: string,
+    email: string,
 };

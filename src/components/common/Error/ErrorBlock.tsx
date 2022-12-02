@@ -1,8 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
 import { Stack } from "@deskpro/app-sdk";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { Props } from "./types";
 
 const StyledErrorBlock = styled(Stack)`
@@ -16,12 +14,10 @@ const StyledErrorBlock = styled(Stack)`
 `;
 
 export const ErrorBlock: FC<Props> = ({ text = "An error occurred" }) => (
-    <StyledErrorBlock className="error-block">
-        <FontAwesomeIcon icon={faExclamation} style={{marginRight: "6px"}}/>
-        <div className="error-block-messages">
-            {Array.isArray(text) ? text.map((msg, idx) => (
-                <div className="error-block-message" key={idx}>{msg}</div>
-            )) : text}
-        </div>
+    <StyledErrorBlock>
+        {Array.isArray(text)
+            ? text.map((msg, idx) => (<div key={idx}>{msg}</div>))
+            : text
+        }
     </StyledErrorBlock>
 );

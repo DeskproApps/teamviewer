@@ -1,7 +1,7 @@
 {
   "name": "@deskpro-apps/teamviewer",
   "title": "TeamViewer",
-  "description": "Create TeamViewer sessions and share them with your users in ticket",
+  "description": "Create TeamViewer sessions and share them with your users in ticket.",
   "version": "1.0.0",
   "scope": "agent",
   "isSingleInstall": false,

@@ -78,7 +78,12 @@ const baseRequest: Request = async (client, {
     }
 
     if (res.status === 400) {
-        return res.json();
+        const badReqResponse = await res.text();
+        try {
+            return JSON.parse(badReqResponse);
+        } catch (e) {
+            return badReqResponse;
+        }
     }
 
     if (res.status < 200 || res.status >= 400) {

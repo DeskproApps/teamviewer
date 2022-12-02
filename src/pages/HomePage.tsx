@@ -143,16 +143,16 @@ const HomePage: FC = () => {
             try {
                 const createRes = await createSessionService(client);
 
-                if (typeof createRes === "string" && createRes.includes("license limitations")) {
+                if (typeof createRes === "string" && `${createRes}`.includes("license limitations")) {
                     setRateLimitError("You have reached the maximum number of concurrent sessions permitted by your TeamViewer license");
                     return;
                 }
 
-                const sessions = await getSessionsService(client);
+                const data = await getSessionsService(client);
 
-                dispatch({ type: "setSessions", sessions });
+                dispatch({ type: "setSessions", sessions: data.sessions });
             } catch (err) {
-                dispatch({ type: "error", err });
+                dispatch({ type: "error", error: err });
             } finally {
                 setLoading(false);
             }

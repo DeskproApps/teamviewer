@@ -12,7 +12,7 @@ import { useStore } from "../context/StoreProvider/hooks";
 import {
     getSessionsService,
     closeSessionService,
-    // createSessionService,
+    createSessionService,
 } from "../services/teamviewer";
 import {
     Title,
@@ -135,7 +135,8 @@ const HomePage: FC = () => {
     const onCreate = useCallback(() => {
         if (!client) { return }
 
-        /*setLoading(true);
+        setLoading(true);
+
         createSessionService(client)
             .then(() => {
                 // ToDo: handle response
@@ -143,7 +144,8 @@ const HomePage: FC = () => {
             })
             .then(({ sessions }) => dispatch({ type: "setSessions", sessions }))
             .catch((error) => dispatch({ type: "error", error }))
-            .finally(() => setLoading(false));*/
+            .finally(() => setLoading(false));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [client]);
 

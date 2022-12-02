@@ -2,7 +2,7 @@
   "name": "@deskpro-apps/teamviewer",
   "title": "TeamViewer",
   "description": "Create TeamViewer sessions and share them with your users in ticket",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "scope": "agent",
   "isSingleInstall": false,
   "hasDevMode": true,
@@ -51,7 +51,7 @@
       "methods": ["GET"],
       "timeout": 10
     }, {
-      "url": "https://webapi.teamviewer.com/api/v1/*",
+      "url": "https://webapi.teamviewer.com/api/v1/.*",
       "methods": ["GET", "POST", "PUT"],
       "timeout": 10
     }]

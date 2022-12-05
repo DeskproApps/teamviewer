@@ -48,7 +48,13 @@ const ActiveSessions = ({ sessions, onCreate, onDelete }: ActiveSessionsProps) =
         <Title>
             Active Sessions ({sessions.length})&nbsp;
             {sessions.length > 0 && (
-                <Button icon={faPlus} minimal noMinimalUnderline onClick={onCreate} />
+                <Button
+                    minimal
+                    icon={faPlus}
+                    noMinimalUnderline
+                    onClick={onCreate}
+                    title="Create New Session"
+                />
             )}
         </Title>
 

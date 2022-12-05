@@ -19,7 +19,7 @@ import {
     TwoColumn,
     BaseContainer,
     TeamViewerLink,
-    TextBlockWithLabel,
+    TextBlockWithLabel, ErrorBlock,
 } from "../components/common";
 import { LoadingPage } from "./LoadingPage";
 import { getDate, isExpired } from "../utils/date";
@@ -48,7 +48,13 @@ const ActiveSessions = ({ sessions, onCreate, onDelete }: ActiveSessionsProps) =
         <Title>
             Active Sessions ({sessions.length})&nbsp;
             {sessions.length > 0 && (
-                <Button icon={faPlus} minimal noMinimalUnderline onClick={onCreate} />
+                <Button
+                    minimal
+                    icon={faPlus}
+                    noMinimalUnderline
+                    onClick={onCreate}
+                    title="Create New Session"
+                />
             )}
         </Title>
 
@@ -99,6 +105,7 @@ const HomePage: FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [activeSessions, setActiveSessions] = useState<Session[]>([]);
     const [expiredSessions, setExpiredSessions] = useState<Session[]>([]);
+    const [rateLimitError, setRateLimitError] = useState<string|null>(null);
 
     useEffect(() => {
         if (!client || !state.isAuth) {
@@ -136,21 +143,33 @@ const HomePage: FC = () => {
         if (!client) { return }
 
         setLoading(true);
+        setRateLimitError(null);
 
-        createSessionService(client)
-            .then(() => {
-                // ToDo: handle response
-                return getSessionsService(client)
-            })
-            .then(({ sessions }) => dispatch({ type: "setSessions", sessions }))
-            .catch((error) => dispatch({ type: "error", error }))
-            .finally(() => setLoading(false));
+        (async () => {
+            try {
+                const createRes = await createSessionService(client);
 
+                if (typeof createRes === "string" && `${createRes}`.includes("license limitations")) {
+                    setRateLimitError("You have reached the maximum number of concurrent sessions permitted by your TeamViewer license");
+                    return;
+                }
+
+                const data = await getSessionsService(client);
+
+                dispatch({ type: "setSessions", sessions: data.sessions });
+            } catch (err) {
+                dispatch({ type: "error", error: err });
+            } finally {
+                setLoading(false);
+            }
+        })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [client]);
 
     const onDelete = useCallback((code) => {
         if (!client) { return }
+
+        setRateLimitError(null);
 
         dispatch({ type: "error", error: null });
         setLoading(true);
@@ -168,6 +187,7 @@ const HomePage: FC = () => {
 
     return (
         <BaseContainer>
+            {rateLimitError && <ErrorBlock text={rateLimitError} />}
             <ActiveSessions sessions={activeSessions} onCreate={onCreate} onDelete={onDelete} />
             <ExpiredSessions sessions={expiredSessions} />
         </BaseContainer>

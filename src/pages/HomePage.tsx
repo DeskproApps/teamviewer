@@ -1,103 +1,17 @@
 import { FC, useState, useEffect, useCallback } from "react";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import {
-    H3,
-    Stack,
-    Button,
-    HorizontalDivider,
-    useDeskproAppClient,
-} from "@deskpro/app-sdk";
+import { useDeskproAppClient } from "@deskpro/app-sdk";
 import { useStore } from "../context/StoreProvider/hooks";
 import {
     getSessionsService,
     closeSessionService,
     createSessionService,
 } from "../services/teamviewer";
-import {
-    Title,
-    TwoColumn,
-    BaseContainer,
-    TeamViewerLink,
-    TextBlockWithLabel, ErrorBlock,
-} from "../components/common";
+import { BaseContainer, ErrorBlock } from "../components/common";
+import { ActiveSessions } from "../components/ActiveSessions";
+import { ExpiredSessions } from "../components/ExpiredSessions";
 import { LoadingPage } from "./LoadingPage";
-import { getDate, isExpired } from "../utils/date";
+import { isExpired } from "../utils/date";
 import { Session } from "../services/teamviewer/types";
-
-type SessionTitleProps = {
-    title: Session["code"],
-    link?: Session["end_customer_link"],
-};
-
-const SessionTitle = ({ title, link }: SessionTitleProps) => (
-    <Stack gap={6} align="center" justify="space-between" style={{ marginBottom: "7px", width: "100%" }}>
-        <H3>{title}</H3>
-        {link && (<TeamViewerLink href={link}/>)}
-    </Stack>
-);
-
-type ActiveSessionsProps = {
-    sessions: Session[],
-    onCreate: () => void,
-    onDelete: (code: Session["code"]) => void,
-};
-
-const ActiveSessions = ({ sessions, onCreate, onDelete }: ActiveSessionsProps) => (
-    <>
-        <Title>
-            Active Sessions ({sessions.length})&nbsp;
-            {sessions.length > 0 && (
-                <Button
-                    minimal
-                    icon={faPlus}
-                    noMinimalUnderline
-                    onClick={onCreate}
-                    title="Create New Session"
-                />
-            )}
-        </Title>
-
-        {sessions.map(({ code, created_at, end_customer_link }) => (
-            <Stack key={code} vertical style={{ marginBottom: "15px" }}>
-                <SessionTitle title={code} link={end_customer_link} />
-                <TextBlockWithLabel label="Created" text={getDate(created_at)} />
-                <Stack justify="space-between" style={{ width: "100%", marginBottom: "14px" }}>
-                    <CopyToClipboard text={end_customer_link}>
-                        <Button text="Copy link" intent="secondary" type="button" />
-                    </CopyToClipboard>
-                    <Button text="Delete" intent="secondary" onClick={() => onDelete(code)} />
-                </Stack>
-                <HorizontalDivider style={{ width: "100%" }}/>
-            </Stack>
-        ))}
-
-        {sessions.length === 0 && (
-            <>
-                <Button text="Create New Session" onClick={onCreate} intent="secondary" />
-                <HorizontalDivider style={{ width: "100%", margin: "15px 0" }}/>
-            </>
-        )}
-    </>
-);
-
-const ExpiredSessions = ({ sessions }: { sessions: Session[] }) => (
-    <>
-        <Title>Expired Sessions ({sessions.length})</Title>
-        {sessions.map(({ code, created_at, valid_until }) => (
-            <Stack key={code} vertical style={{ marginBottom: "15px" }}>
-                <SessionTitle title={code} />
-                <TwoColumn
-                    leftLabel="Created"
-                    leftText={getDate(created_at)}
-                    rightLabel="Expired"
-                    rightText={getDate(valid_until)}
-                />
-                <HorizontalDivider style={{ width: "100%" }}/>
-            </Stack>
-        ))}
-    </>
-);
 
 const HomePage: FC = () => {
     const { client } = useDeskproAppClient();
@@ -181,6 +95,10 @@ const HomePage: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [client]);
 
+    const onInsertLink = useCallback((sessionLink) => {
+        client?.deskpro().appendLinkToActiveTicketReplyBox(sessionLink, sessionLink);
+    }, [client]);
+
     if (loading) {
         return (<LoadingPage />);
     }
@@ -188,8 +106,14 @@ const HomePage: FC = () => {
     return (
         <BaseContainer>
             {rateLimitError && <ErrorBlock text={rateLimitError} />}
-            <ActiveSessions sessions={activeSessions} onCreate={onCreate} onDelete={onDelete} />
+            <ActiveSessions
+                sessions={activeSessions}
+                onCreate={onCreate}
+                onDelete={onDelete}
+                onInsertLink={onInsertLink}
+            />
             <ExpiredSessions sessions={expiredSessions} />
+            <br/><br/><br/>
         </BaseContainer>
     );
 };

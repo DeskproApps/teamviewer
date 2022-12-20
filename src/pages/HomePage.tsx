@@ -95,6 +95,10 @@ const HomePage: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [client]);
 
+    const onInsertLink = useCallback((sessionLink) => {
+        client?.deskpro().appendLinkToActiveTicketReplyBox(sessionLink, sessionLink);
+    }, [client]);
+
     if (loading) {
         return (<LoadingPage />);
     }
@@ -106,8 +110,10 @@ const HomePage: FC = () => {
                 sessions={activeSessions}
                 onCreate={onCreate}
                 onDelete={onDelete}
+                onInsertLink={onInsertLink}
             />
             <ExpiredSessions sessions={expiredSessions} />
+            <br/><br/><br/>
         </BaseContainer>
     );
 };

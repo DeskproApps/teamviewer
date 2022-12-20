@@ -15,12 +15,14 @@ const Container = styled(Stack)`
 `;
 
 const Link = styled.a`
-    :hover {
-      border-color: ${({ theme }) => (theme.colors.brandShade60)};
-    };
-    border-radius: 9px;
+    border-radius: 10px;
     border: 1px solid transparent;
-    color: ${({ theme }) => (theme.colors.brandShade100)}
+    color: ${({ theme }) => (theme.colors.brandShade100)};
+    cursor: pointer;
+    
+    :hover {
+        border-color: ${({ theme }) => (theme.colors.brandShade60)};
+    };
 `;
 
 export const TeamViewerIcon = styled(Icon)`
@@ -28,6 +30,7 @@ export const TeamViewerIcon = styled(Icon)`
     width: 12px;
     height: 12px;
     padding: 0 6px 0 0;
+    cursor: pointer;
 `;
 
 const TeamViewerLink = ({ href }: Props) => {

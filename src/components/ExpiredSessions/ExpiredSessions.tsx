@@ -6,7 +6,7 @@ import { Session } from "../../services/teamviewer/types";
 
 const ExpiredSessions = ({ sessions }: { sessions: Session[] }) => (
     <>
-        <Title>Expired Sessions ({sessions.length})</Title>
+        <Title title={`Expired Sessions (${sessions.length})`}/>
         {sessions.map(({ code, created_at, valid_until }) => (
             <Stack key={code} vertical style={{ marginBottom: "15px" }}>
                 <SessionTitle title={code} />

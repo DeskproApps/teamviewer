@@ -10,7 +10,7 @@ const preInstalledRequest: PreInstalledRequest = async (
     { url, data = {}, method = "GET", settings },
 ) => {
     if (!every([settings?.client_id, settings?.client_secret, settings?.global_access_token])) {
-        throw new Error("Client id, secret and global access tokens are not defined");
+        throw new Error("Client id, secret or global access tokens are not defined");
     }
 
     const baseUrl = `${BASE_URL}${url}`;
@@ -43,12 +43,16 @@ const preInstalledRequest: PreInstalledRequest = async (
                 client_secret: settings.client_secret as string,
             }),
             headers: {
-                ...options.headers,
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         };
 
         const refreshResponse = await fetch(new URL(`${BASE_URL}/oauth2/token`).toString(), preRequestOptions);
+
+        if (isResponseError(response)) {
+            throw new Error(`Request failed: [${response.status}] ${await response.text()}`);
+        }
+
         const refreshData = await refreshResponse.json();
 
         const refreshedTokens: AuthTokens = {

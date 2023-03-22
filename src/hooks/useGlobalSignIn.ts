@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import get from "lodash/get";
 import every from "lodash/every";
 import isEmpty from "lodash/isEmpty";
 import {
@@ -23,11 +24,13 @@ export const useGlobalSignIn = () => {
     const [ user, setUser ] = useState<Account|null>(null);
 
     const key = useMemo(() => uuidv4(), []);
+    const globalAccessToken = get(settings, ["global_access_token"], "");
 
     const signOut = () => {
         client?.setAdminSetting("");
         setUser(null);
         setAccessCode(null);
+        setSettings(null);
     };
 
     const signIn = () => {
@@ -101,12 +104,7 @@ export const useGlobalSignIn = () => {
 
             setIsLoading(false);
         })();
-    }, [
-        accessCode,
-        callbackUrl,
-        settings?.client_id,
-        settings?.client_secret,
-    ]);
+    }, [accessCode, callbackUrl, settings?.client_id, settings?.client_secret]);
 
     // Get current TeamViewer user
     useInitialisedDeskproAppClient((client) => {
@@ -115,7 +113,7 @@ export const useGlobalSignIn = () => {
                 .then(setUser)
                 .catch(signOut)
         }
-    }, [settings?.global_access_token]);
+    }, [globalAccessToken]);
 
     // Build auth flow entrypoint URL
     const oAuthUrl = useMemo(() => {
@@ -136,12 +134,12 @@ export const useGlobalSignIn = () => {
     useEffect(() => {
         if (!(callbackUrl && client && poll)) {
             setIsBlocking(true);
-        } else if (settings?.global_access_token && !user) {
+        } else if (globalAccessToken && !user) {
             setIsBlocking(true);
         } else {
             setIsBlocking(false);
         }
-    }, [callbackUrl, client, poll, settings?.global_access_token, user]);
+    }, [callbackUrl, client, poll, globalAccessToken, user]);
 
     const cancelLoading = () => setIsLoading(false);
 

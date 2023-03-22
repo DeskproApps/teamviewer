@@ -1,27 +1,26 @@
 import { Suspense } from "react";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import {
     Stack,
     Button,
+    LoadingSpinner,
     useDeskproAppClient,
     useDeskproAppEvents,
     useDeskproLatestAppContext,
     useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
-import { pingService } from "../services/teamviewer";
 import { useStore } from "../context/StoreProvider/hooks";
 import { LoadingPage } from "./LoadingPage";
 import { HomePage } from "./HomePage";
 import { GlobalSignIn } from "./GlobalSignIn";
-import { ErrorBlock } from "../components/common";
+import { ErrorBlock, BaseContainer } from "../components/common";
 
 export const Main = () => {
     const { context } = useDeskproLatestAppContext();
     const { client } = useDeskproAppClient();
-    const [state, dispatch] = useStore();
-    const navigate = useNavigate();
+    const [state] = useStore();
     const location = useLocation();
     const { pathname } = location;
 
@@ -35,15 +34,6 @@ export const Main = () => {
         });
     });
 
-    useInitialisedDeskproAppClient((client) => {
-        pingService(client)
-            .then(({ token_valid }) => {
-                dispatch({ type: "setAuth", isAuth: token_valid })
-                token_valid && navigate("/home");
-            })
-            .catch(() => dispatch({ type: "setAuth", isAuth: false }))
-    }, []);
-
     useDeskproAppEvents({
         onShow: () => {
             client && setTimeout(() => client.resize(), 200);
@@ -52,16 +42,20 @@ export const Main = () => {
 
     // We don't have a context in admin that we care about, so just load the page straight away
     if (!["/admin/global-sign-in"].includes(pathname) && !context) {
-        return <LoadingPage />;
+        return <LoadingSpinner />;
     }
 
     return (
-        <Suspense fallback={<LoadingPage />}>
-            {state._error && (
-                <ErrorBlock text="An error occurred" />
+        <Suspense fallback={<LoadingSpinner />}>
+            {state.isAuth && state._error && (
+                <BaseContainer>
+                    <ErrorBlock text="An error occurred" />
+                </BaseContainer>
             )}
             {!state.isAuth && (
-                <ErrorBlock text="Go back to the admin settings form for the app and re-auth from there" />
+                <BaseContainer>
+                    <ErrorBlock text="Go back to the admin settings form for the app and re-auth from there" />
+                </BaseContainer>
             )}
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore */}

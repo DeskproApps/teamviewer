@@ -1,35 +1,18 @@
 import { FC } from "react";
 import isEmpty from "lodash/isEmpty";
 import styled from "styled-components";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { faCopy, faSignIn, faSignOut } from "@fortawesome/free-solid-svg-icons";
+import { faSignIn, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import { AnchorButton } from "@deskpro/deskpro-ui";
 import {
     P1,
-    P5,
     H2,
-    Stack,
     Button,
     useDeskproAppTheme,
+    CopyToClipboardInput
 } from "@deskpro/app-sdk";
 import { useGlobalSignIn } from "../hooks/useGlobalSignIn";
 import { Account } from "../services/teamviewer/types";
-import { Loading, OverflowText } from "../components/common";
-
-const GlobalSignInContainerCallback = styled(Stack)`
-    margin: 3px 0 0 0;
-    padding: 5px 5px 6px 10px;
-    font-family: "Noto Sans", sans-serif;
-    border: 1px solid ${({ theme }) => theme.colors.brandShade40};
-    border-radius: 4px;
-    font-size: 12px;
-    color: ${({ theme }) => theme.colors.grey100}
-`;
-
-const CopyButton = styled(Button)`
-    min-width: 85px;
-    justify-content: center;
-`;
+import { Loading } from "../components/common";
 
 const Description = styled(P1)`
     margin-bottom: 16px;
@@ -41,12 +24,7 @@ const CallbackUrl = ({ url }: { url: string }) => {
     return (
         <>
             <H2 style={{ marginBottom: "5px" }}>Callback URL</H2>
-            <GlobalSignInContainerCallback justify="space-between" align="center">
-                <OverflowText as={P5}>{url}</OverflowText>
-                <CopyToClipboard text={url}>
-                    <CopyButton text="Copy" icon={faCopy} intent="secondary" />
-                </CopyToClipboard>
-            </GlobalSignInContainerCallback>
+                <CopyToClipboardInput value={url}/>
             <Description>The callback URL will be required during TeamViewer app setup</Description>
         </>
     );

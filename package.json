@@ -13,7 +13,7 @@
     "test:coverage": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75% --coverage"
   },
   "dependencies": {
-    "@deskpro/app-sdk": "1.2.8",
+    "@deskpro/app-sdk": "1.2.14",
     "@deskpro/deskpro-ui": "4.7.0",
     "@heroicons/react": "1.0.6",
     "date-fns": "^2.29.3",
@@ -21,7 +21,6 @@
     "lodash": "^4.17.21",
     "polished": "^4.1.1",
     "react": "^17.0.2",
-    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^17.0.2",
     "react-error-boundary": "^3.1.4",
     "react-router-dom": "^6.4.0",

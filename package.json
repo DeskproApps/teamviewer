@@ -10,21 +10,27 @@
     "serve": "vite preview",
     "lint": "eslint --max-warnings 0 --ext ts,tsx ./src",
     "test": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75%",
-    "test:coverage": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75% --coverage"
+    "test:coverage": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75% --coverage",
+    "bumpManifestVer": "node ./bin/bumpManifestVer.js"
   },
   "dependencies": {
     "@deskpro/app-sdk": "1.2.14",
     "@deskpro/deskpro-ui": "4.7.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@heroicons/react": "1.0.6",
     "date-fns": "^2.29.3",
+    "flatpickr": "^4.6.13",
     "iframe-resizer": "^4.3.2",
     "lodash": "^4.17.21",
     "polished": "^4.1.1",
+    "prettier": "^2.8.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-error-boundary": "^3.1.4",
     "react-router-dom": "^6.4.0",
+    "simplebar": "^6.2.5",
     "styled-components": "^5.3.6",
+    "tippy.js": "^6.3.7",
     "ts-pattern": "4.0.5",
     "uuid": "^9.0.0"
   },

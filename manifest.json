@@ -3,23 +3,25 @@
   "title": "TeamViewer",
   "description": "Create TeamViewer sessions and share them with your users in ticket.",
   "appStoreUrl": "https://www.deskpro.com/product-embed/apps/teamviewer",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "scope": "agent",
   "isSingleInstall": false,
   "hasDevMode": true,
-  "targets": [{
-    "target": "ticket_sidebar",
-    "entrypoint": "index.html",
-    "options": {
-      "actions": {
-        "linkTicket": {
-          "type": "ticket_addition",
-          "title": "TeamViewer Session",
-          "description": "Create a TeamViewer session"
+  "targets": [
+    {
+      "target": "ticket_sidebar",
+      "entrypoint": "index.html",
+      "options": {
+        "actions": {
+          "linkTicket": {
+            "type": "ticket_addition",
+            "title": "TeamViewer Session",
+            "description": "Create a TeamViewer session"
+          }
         }
       }
     }
-  }],
+  ],
   "settings": {
     "client_id": {
       "title": "Client ID",
@@ -38,23 +40,24 @@
     "global_access_token": {
       "title": "",
       "type": "app_embedded",
-      "options": {
-        "entrypoint": "#/admin/global-sign-in"
-      },
+      "options": { "entrypoint": "#/admin/global-sign-in" },
       "isRequired": true,
       "isBackendOnly": true,
       "order": 30
     }
   },
   "proxy": {
-    "whitelist": [{
-      "url": "https://login.teamviewer.com/oauth2/authorize",
-      "methods": ["GET"],
-      "timeout": 10
-    }, {
-      "url": "https://webapi.teamviewer.com/api/v1/.*",
-      "methods": ["GET", "POST", "PUT"],
-      "timeout": 10
-    }]
+    "whitelist": [
+      {
+        "url": "https://login.teamviewer.com/oauth2/authorize",
+        "methods": ["GET"],
+        "timeout": 10
+      },
+      {
+        "url": "https://webapi.teamviewer.com/api/v1/.*",
+        "methods": ["GET", "POST", "PUT"],
+        "timeout": 10
+      }
+    ]
   }
 }

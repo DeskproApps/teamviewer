@@ -12,7 +12,7 @@ import {
     useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { useStore } from "../context/StoreProvider/hooks";
-import { LoadingPage } from "./LoadingPage";
+import { LoadingAppPage } from "./LoadingAppPage";
 import { HomePage } from "./HomePage";
 import { GlobalSignIn } from "./GlobalSignIn";
 import { ErrorBlock, BaseContainer } from "../components/common";
@@ -52,11 +52,6 @@ export const Main = () => {
                     <ErrorBlock text="An error occurred" />
                 </BaseContainer>
             )}
-            {!state.isAuth && (
-                <BaseContainer>
-                    <ErrorBlock text="Go back to the admin settings form for the app and re-auth from there" />
-                </BaseContainer>
-            )}
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore */}
             <ErrorBoundary fallbackRender={({ error, resetErrorBoundary }) => {
@@ -78,7 +73,7 @@ export const Main = () => {
                             <Route path="global-sign-in" element={<GlobalSignIn/>} />
                         </Route>
                         <Route path="/home" element={<HomePage/>} />
-                        <Route index element={<LoadingPage />} />
+                        <Route index element={<LoadingAppPage />} />
                     </Route>
                 </Routes>
             </ErrorBoundary>

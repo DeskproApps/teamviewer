@@ -8,7 +8,7 @@ type SuccessRefresh = {
     expires_in: number,
 };
 
-const refreshTokenService = async (
+const refreshGlobalTokenService = async (
     client: IDeskproClient,
 ): Promise<SuccessRefresh> => {
     const dpFetch = await proxyFetch(client);
@@ -22,8 +22,8 @@ const refreshTokenService = async (
             `grant_type=refresh_token`,
             `client_id=__client_id__`,
             `client_secret=__client_secret__`,
-            `refresh_token=${placeholders.REFRESH_TOKEN}`,
-        ].join("&")
+            `refresh_token=${placeholders.GLOBAL_REFRESH_TOKEN}`,
+        ].join("&"),
     });
 
     if (res.status !== 200) {
@@ -38,4 +38,4 @@ const refreshTokenService = async (
     return tokens;
 };
 
-export { refreshTokenService };
+export { refreshGlobalTokenService };

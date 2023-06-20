@@ -1,5 +1,8 @@
 import { FC, useState, useEffect, useCallback } from "react";
-import { useDeskproAppClient } from "@deskpro/app-sdk";
+import {
+    LoadingSpinner,
+    useDeskproAppClient,
+} from "@deskpro/app-sdk";
 import { useStore } from "../context/StoreProvider/hooks";
 import {
     getSessionsService,
@@ -9,7 +12,6 @@ import {
 import { BaseContainer, ErrorBlock } from "../components/common";
 import { ActiveSessions } from "../components/ActiveSessions";
 import { ExpiredSessions } from "../components/ExpiredSessions";
-import { LoadingPage } from "./LoadingPage";
 import { isExpired } from "../utils/date";
 import { Session } from "../services/teamviewer/types";
 
@@ -100,7 +102,7 @@ const HomePage: FC = () => {
     }, [client]);
 
     if (loading) {
-        return (<LoadingPage />);
+        return (<LoadingSpinner />);
     }
 
     return (

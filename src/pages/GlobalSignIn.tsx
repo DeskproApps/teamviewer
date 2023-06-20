@@ -7,12 +7,12 @@ import {
     P1,
     H2,
     Button,
+    LoadingSpinner,
     useDeskproAppTheme,
-    CopyToClipboardInput
+    CopyToClipboardInput,
 } from "@deskpro/app-sdk";
 import { useGlobalSignIn } from "../hooks/useGlobalSignIn";
 import { Account } from "../services/teamviewer/types";
-import { Loading } from "../components/common";
 
 const Description = styled(P1)`
     margin-bottom: 16px;
@@ -24,7 +24,7 @@ const CallbackUrl = ({ url }: { url: string }) => {
     return (
         <>
             <H2 style={{ marginBottom: "5px" }}>Callback URL</H2>
-                <CopyToClipboardInput value={url}/>
+            <CopyToClipboardInput value={url}/>
             <Description>The callback URL will be required during TeamViewer app setup</Description>
         </>
     );
@@ -84,7 +84,9 @@ const GlobalSignIn: FC = () => {
     } = useGlobalSignIn();
 
     if (isBlocking) {
-        return (<Loading/>);
+        return (
+            <LoadingSpinner/>
+        );
     }
 
     return (

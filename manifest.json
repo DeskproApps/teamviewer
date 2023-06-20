@@ -39,6 +39,7 @@
     },
     "global_access_token": {
       "title": "",
+      "default": "",
       "type": "app_embedded",
       "options": { "entrypoint": "#/admin/global-sign-in" },
       "isRequired": true,

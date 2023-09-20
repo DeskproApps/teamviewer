@@ -1,4 +1,5 @@
 export { baseRequest } from "./baseRequest";
+export { TeamViewerError } from "./TeamViewerError";
 export { pingService } from "./pingService";
 export { getCurrentUserService } from "./getCurrentUserService";
 export { getSessionsService } from "./getSessionsService";

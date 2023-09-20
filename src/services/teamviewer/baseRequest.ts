@@ -1,9 +1,10 @@
 import isEmpty from "lodash/isEmpty";
 import { proxyFetch } from "@deskpro/app-sdk";
 import { BASE_URL, placeholders } from "./constants";
-import { Request } from "./types";
 import { getQueryParams } from "../../utils";
 import { refreshTokenService } from "./refreshTokenService";
+import { TeamViewerError } from "./TeamViewerError";
+import type { Request } from "./types";
 
 const baseRequest: Request = async (client, {
     url,
@@ -68,7 +69,18 @@ const baseRequest: Request = async (client, {
     }
 
     if (res.status < 200 || res.status >= 400) {
-        throw new Error(`Request failed: [${res.status}] ${await res.text()}`);
+        let errorData;
+
+        try {
+            errorData = await res.json();
+        } catch (e) {
+            errorData = {};
+        }
+
+        throw new TeamViewerError({
+            status: res.status,
+            data: errorData,
+        });
     }
 
     try {

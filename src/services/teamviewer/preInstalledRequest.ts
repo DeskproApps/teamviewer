@@ -1,9 +1,10 @@
 import { IDeskproClient, adminGenericProxyFetch } from "@deskpro/app-sdk";
 import every from "lodash/every";
 import { BASE_URL } from "./constants";
+import type { ProxyResponse } from "@deskpro/app-sdk";
 import { AuthTokens, PreInstalledRequest } from "./types";
 
-export const isResponseError = (response: Response) => (response.status < 200 || response.status >= 400);
+export const isResponseError = (response: ProxyResponse) => (response.status < 200 || response.status >= 400);
 
 const preInstalledRequest: PreInstalledRequest = async (
     client: IDeskproClient,

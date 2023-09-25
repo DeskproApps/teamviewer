@@ -2,11 +2,8 @@ import { FC } from "react";
 import isEmpty from "lodash/isEmpty";
 import styled from "styled-components";
 import { faSignIn, faSignOut } from "@fortawesome/free-solid-svg-icons";
-import { AnchorButton } from "@deskpro/deskpro-ui";
+import { P1, H2, Button, AnchorButton } from "@deskpro/deskpro-ui";
 import {
-    P1,
-    H2,
-    Button,
     LoadingSpinner,
     useDeskproAppTheme,
     CopyToClipboardInput,

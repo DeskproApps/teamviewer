@@ -10,6 +10,7 @@ import {
     useInitialisedDeskproAppClient
 } from "@deskpro/app-sdk";
 import { getQueryParams } from "../utils";
+import { DEFAULT_ERROR } from "../constants";
 import { getCurrentUserService } from "../services/teamviewer";
 import { Account, Settings, AuthTokens } from "../services/teamviewer/types";
 
@@ -22,6 +23,7 @@ export const useGlobalSignIn = () => {
     const [ isBlocking, setIsBlocking ] = useState<boolean>(true);
     const [ accessCode, setAccessCode ] = useState<string|null>(null);
     const [ user, setUser ] = useState<Account|null>(null);
+    const [error, setError] = useState<null|string>(null);
 
     const key = useMemo(() => uuidv4(), []);
     const globalAccessToken = get(settings, ["global_access_token"], "");
@@ -40,6 +42,23 @@ export const useGlobalSignIn = () => {
         })();
     };
 
+    const cancelLoading = () => setIsLoading(false);
+
+    // Build auth flow entrypoint URL
+    const oAuthUrl = useMemo(() => {
+        if (!settings?.client_id) {
+            return null;
+        }
+
+        return `https://login.teamviewer.com/oauth2/authorize?${getQueryParams({
+            response_type: "code",
+            display: "popup",
+            client_id: settings.client_id,
+            state: key,
+            redirect_uri: callbackUrl,
+        })}`;
+    }, [settings?.client_id, callbackUrl, key]);
+
     useDeskproAppEvents({
         onAdminSettingsChange: setSettings,
     }, []);
@@ -49,8 +68,8 @@ export const useGlobalSignIn = () => {
         (async () => {
             const { callbackUrl, poll } = await client.oauth2().getAdminGenericCallbackUrl(
                 key,
-                /code=(?<token>[\d\w]+)/,
-                /state=(?<key>.+)/
+                /code=(?<token>[^&]+)/,
+                /state=(?<key>[^&]+)/
             );
 
             setCallbackUrl(callbackUrl);
@@ -85,22 +104,30 @@ export const useGlobalSignIn = () => {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         };
+
+
         (async () => {
-            const fetch = await adminGenericProxyFetch(client);
-            const response = await fetch(url.toString(), requestOptions);
-            const data: {
-                "access_token": string,
-                "token_type": "bearer",
-                "expires_in": number,
-                "refresh_token": string,
-            } = await response.json();
+            setError(null);
 
-            const tokens: AuthTokens = {
-                accessToken: data.access_token,
-                refreshToken: data.refresh_token,
-            };
+            try {
+                const fetch = await adminGenericProxyFetch(client);
+                const response = await fetch(url.toString(), requestOptions);
+                const data: {
+                    "access_token": string,
+                    "token_type": "bearer",
+                    "expires_in": number,
+                    "refresh_token": string,
+                } = await response.json();
 
-            client.setAdminSetting(JSON.stringify(tokens));
+                const tokens: AuthTokens = {
+                    accessToken: data.access_token,
+                    refreshToken: data.refresh_token,
+                };
+
+                client.setAdminSetting(JSON.stringify(tokens));
+            } catch (e) {
+                setError(DEFAULT_ERROR);
+            }
 
             setIsLoading(false);
         })();
@@ -115,21 +142,6 @@ export const useGlobalSignIn = () => {
         }
     }, [globalAccessToken]);
 
-    // Build auth flow entrypoint URL
-    const oAuthUrl = useMemo(() => {
-        if (!settings?.client_id) {
-            return null;
-        }
-
-        return `https://login.teamviewer.com/oauth2/authorize?${getQueryParams({
-            response_type: "code",
-            display: "popup",
-            client_id: settings.client_id,
-            state: key,
-            redirect_uri: callbackUrl,
-        })}`;
-    }, [settings?.client_id, callbackUrl, key]);
-
     // Set blocking flag
     useEffect(() => {
         if (!(callbackUrl && client && poll)) {
@@ -141,8 +153,6 @@ export const useGlobalSignIn = () => {
         }
     }, [callbackUrl, client, poll, globalAccessToken, user]);
 
-    const cancelLoading = () => setIsLoading(false);
-
     return {
         callbackUrl,
         user,
@@ -152,5 +162,6 @@ export const useGlobalSignIn = () => {
         cancelLoading,
         signIn,
         signOut,
+        error,
     };
 };

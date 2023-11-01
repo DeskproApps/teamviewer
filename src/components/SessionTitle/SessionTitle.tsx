@@ -1,4 +1,4 @@
-import { H3, Stack } from "@deskpro/app-sdk";
+import { H3, Stack } from "@deskpro/deskpro-ui";
 import { TeamViewerLink } from "../common";
 import { Session } from "../../services/teamviewer/types";
 

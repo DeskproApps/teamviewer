@@ -1,10 +1,7 @@
 import { Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
-import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import {
-    Stack,
-    Button,
     LoadingSpinner,
     useDeskproAppClient,
     useDeskproAppEvents,
@@ -12,9 +9,11 @@ import {
     useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { useStore } from "../context/StoreProvider/hooks";
+import { DEFAULT_ERROR } from "../constants";
 import { LoadingAppPage } from "./LoadingAppPage";
 import { HomePage } from "./HomePage";
 import { GlobalSignIn } from "./GlobalSignIn";
+import { ErrorFallback } from "../components/Error";
 import { ErrorBlock, BaseContainer } from "../components/common";
 
 export const Main = () => {
@@ -49,24 +48,12 @@ export const Main = () => {
         <Suspense fallback={<LoadingSpinner />}>
             {state.isAuth && state._error && (
                 <BaseContainer>
-                    <ErrorBlock text="An error occurred" />
+                    <ErrorBlock text={DEFAULT_ERROR} />
                 </BaseContainer>
             )}
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore */}
-            <ErrorBoundary fallbackRender={({ error, resetErrorBoundary }) => {
-                if (state._error) {
-                    console.error(`TeamViewer: ${error}`);
-                }
-                return (
-                    <ErrorBlock text={(
-                        <Stack gap={6} style={{ padding: "8px" }} vertical>
-                            There was an error!
-                            <Button text="Reload" onClick={resetErrorBoundary} icon={faRefresh} intent="secondary" />
-                        </Stack>
-                    )}/>
-                );
-            }}>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
                 <Routes>
                     <Route path="/">
                         <Route path="admin">

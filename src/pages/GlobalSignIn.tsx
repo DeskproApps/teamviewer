@@ -2,17 +2,31 @@ import { FC } from "react";
 import isEmpty from "lodash/isEmpty";
 import styled from "styled-components";
 import { faSignIn, faSignOut } from "@fortawesome/free-solid-svg-icons";
-import { AnchorButton } from "@deskpro/deskpro-ui";
+import { P1, H2, TSpan, Button, AnchorButton } from "@deskpro/deskpro-ui";
 import {
-    P1,
-    H2,
-    Button,
     LoadingSpinner,
     useDeskproAppTheme,
     CopyToClipboardInput,
 } from "@deskpro/app-sdk";
+import { nbsp } from "../constants";
 import { useGlobalSignIn } from "../hooks/useGlobalSignIn";
 import { Account } from "../services/teamviewer/types";
+
+type LoginProps = {
+    url: string,
+    error: null|string,
+    isLoading: boolean,
+    signIn: () => void,
+    cancel: () => void,
+};
+
+const InvalidStyled = styled(TSpan)`
+  color: ${({ theme }) => theme.colors.red100};
+`;
+
+const Invalid: FC = (props) => (
+    <InvalidStyled type="p1" {...props} />
+);
 
 const Description = styled(P1)`
     margin-bottom: 16px;
@@ -30,7 +44,7 @@ const CallbackUrl = ({ url }: { url: string }) => {
     );
 };
 
-const Login = ({ url, isLoading, signIn, cancel }: { url: string, isLoading: boolean, signIn: () => void, cancel: () => void }) => {
+const Login = ({ url, isLoading, signIn, cancel, error }: LoginProps) => {
     return (
         <>
             <P1 style={{ marginBottom: "6px" }}>
@@ -54,6 +68,12 @@ const Login = ({ url, isLoading, signIn, cancel }: { url: string, isLoading: boo
                     intent="secondary"
                     style={{ marginLeft: "6px" }}
                 />
+            )}
+            {(!isLoading && error) && (
+                <>
+                    {nbsp}
+                    <Invalid>{error}</Invalid>
+                </>
             )}
         </>
     );
@@ -81,6 +101,7 @@ const GlobalSignIn: FC = () => {
         cancelLoading,
         signIn,
         signOut,
+        error,
     } = useGlobalSignIn();
 
     if (isBlocking) {
@@ -94,7 +115,15 @@ const GlobalSignIn: FC = () => {
             {callbackUrl && <CallbackUrl url={callbackUrl}/>}
             {!isEmpty(user)
                 ? (<Logout user={user} signOut={signOut} />)
-                : (<Login url={oAuthUrl || ""} isLoading={isLoading} signIn={signIn} cancel={cancelLoading}/>)
+                : (
+                    <Login
+                        url={oAuthUrl || ""}
+                        isLoading={isLoading}
+                        signIn={signIn}
+                        cancel={cancelLoading}
+                        error={error}
+                    />
+                )
             }
         </>
     );

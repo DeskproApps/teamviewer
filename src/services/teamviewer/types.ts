@@ -40,6 +40,12 @@ export type PreInstalledRequest = <T>(
     params: PreRequestParams,
 ) => Promise<T>;
 
+export type TeamViewerAPIError = {
+    error: string,
+    error_code: number,
+    error_description: string,
+};
+
 export type Request = <T>(
     client: IDeskproClient,
     params: RequestParams

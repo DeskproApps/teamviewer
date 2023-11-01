@@ -5,6 +5,8 @@ import {
     useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { useStore } from "../context/StoreProvider/hooks";
+import { retryUntilResolve } from "../utils";
+import { AUTH_ERROR } from "../constants";
 import {
     pingService,
     refreshTokenService,
@@ -17,22 +19,18 @@ const useCheckIsAuth = () => {
     const [, dispatch] = useStore();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string|null>(null);
+    const retryPingService = retryUntilResolve(pingService, 3);
 
     useInitialisedDeskproAppClient((client) => {
-        refreshTokenService(client)
-            .catch(() => {
-                return refreshGlobalTokenService(client)
-                    .then(({ access_token, refresh_token }) => Promise.all([
-                        client.setState("oauth/global/access_token", access_token, { backend: true }),
-                        client.setState("oauth/global/refresh_token", refresh_token, { backend: true }),
-                    ]))
-            })
+        retryPingService(client)
+            .catch(() => refreshTokenService(client))
+            .catch(() => refreshGlobalTokenService(client))
             .then(() => pingService(client))
             .then(() => {
                 dispatch({ type: "setAuth", isAuth: true });
                 navigate("/home");
             })
-            .catch(() => setError("Go back to the admin settings form for the app and re-auth from there"))
+            .catch(() => setError(AUTH_ERROR))
             .finally(() => setIsLoading(false));
     }, []);
 

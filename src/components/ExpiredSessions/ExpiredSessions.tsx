@@ -1,4 +1,5 @@
-import { HorizontalDivider, Stack } from "@deskpro/app-sdk";
+import { Stack } from "@deskpro/deskpro-ui";
+import { HorizontalDivider } from "@deskpro/app-sdk";
 import { Title, TwoColumn } from "../common";
 import { SessionTitle } from "../SessionTitle";
 import { getDate } from "../../utils/date";

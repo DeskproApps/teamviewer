@@ -19,9 +19,9 @@ const ActiveSessions = ({ sessions, onCreate, onDelete, onInsertLink }: ActiveSe
             onClick={(sessions.length > 0) ? onCreate : undefined}
         />
 
-        {sessions.map(({ code, created_at, end_customer_link }) => (
+        {sessions.map(({ code, created_at, end_customer_link, supporter_link }) => (
             <Stack key={code} vertical style={{ marginBottom: "15px" }}>
-                <SessionTitle title={code} link={end_customer_link} />
+                <SessionTitle title={code} link={supporter_link} />
                 <TextBlockWithLabel label="Created" text={getDate(created_at)} />
                 <Stack justify="space-between" style={{ width: "100%", marginBottom: "14px" }}>
                     <Button text="Insert link" intent="secondary" onClick={() => onInsertLink(end_customer_link)} />

@@ -12,7 +12,7 @@ import {
 import { getQueryParams } from "../utils";
 import { DEFAULT_ERROR } from "../constants";
 import { getCurrentUserService } from "../services/teamviewer";
-import { Account, Settings, AuthTokens } from "../services/teamviewer/types";
+import { Account, Settings, AuthTokens, FetchOptions } from "../services/teamviewer/types";
 
 export const useGlobalSignIn = () => {
     const { client } = useDeskproAppClient();
@@ -92,7 +92,7 @@ export const useGlobalSignIn = () => {
 
         const url = new URL(`https://webapi.teamviewer.com/api/v1/oauth2/token`);
 
-        const requestOptions: RequestInit = {
+        const requestOptions: FetchOptions = {
             method: "POST",
             body: new URLSearchParams({
                 grant_type: "authorization_code",

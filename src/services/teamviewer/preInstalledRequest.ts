@@ -2,7 +2,7 @@ import { IDeskproClient, adminGenericProxyFetch } from "@deskpro/app-sdk";
 import every from "lodash/every";
 import { BASE_URL } from "./constants";
 import type { ProxyResponse } from "@deskpro/app-sdk";
-import { AuthTokens, PreInstalledRequest } from "./types";
+import { AuthTokens, PreInstalledRequest, FetchOptions } from "./types";
 
 export const isResponseError = (response: ProxyResponse) => (response.status < 200 || response.status >= 400);
 
@@ -19,7 +19,7 @@ const preInstalledRequest: PreInstalledRequest = async (
 
     const fetch = await adminGenericProxyFetch(client);
 
-    const options: RequestInit = {
+    const options: FetchOptions = {
         method,
         headers: {
             "Content-Type": "application/json",
@@ -35,7 +35,7 @@ const preInstalledRequest: PreInstalledRequest = async (
     let response = await fetch(baseUrl, options);
 
     if ([400, 401].includes(response.status)) {
-        const preRequestOptions: RequestInit = {
+        const preRequestOptions: FetchOptions = {
             method: "POST",
             body: new URLSearchParams({
                 grant_type: "refresh_token",

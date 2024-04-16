@@ -3,7 +3,8 @@ import { baseRequest } from "./baseRequest";
 import { Session } from "./types";
 
 const createSessionService = (client: IDeskproClient) => {
-    const createSessionResponse = baseRequest<Session>(client, {
+    // This response conatins the new session URLs decoded from the Location header
+    return baseRequest<Session>(client, {
         url: "/sessions",
         method: "POST",
         data: { groupname: "Deskpro" },
@@ -11,9 +12,6 @@ const createSessionService = (client: IDeskproClient) => {
             "X-Proxy-Redirect-As-Success": "1"
         },
     });
-
-    // This response conatins the new session URLs decoded from the Location header
-    return createSessionResponse;
 };
 
 export { createSessionService };

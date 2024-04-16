@@ -1,25 +1,28 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { DeskproAppProvider } from "@deskpro/app-sdk";
+import { Suspense, StrictMode } from "react";
+import ReactDOM from "react-dom/client";
+import { ErrorBoundary } from "react-error-boundary";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter } from "react-router-dom";
-import { StoreProvider } from "./context/StoreProvider";
+import { DeskproAppProvider, LoadingSpinner } from "@deskpro/app-sdk";
+import { queryClient } from "./query";
+import { ErrorFallback } from "./components";
 import { App } from "./App";
-
-import "flatpickr/dist/themes/light.css";
-import "tippy.js/dist/tippy.css";
-import "simplebar/dist/simplebar.min.css";
 import "@deskpro/deskpro-ui/dist/deskpro-ui.css";
 import "@deskpro/deskpro-ui/dist/deskpro-custom-icons.css";
 
-ReactDOM.render(
-    <React.StrictMode>
+const root = ReactDOM.createRoot(document.getElementById('root') as Element);
+root.render(
+    <StrictMode>
         <DeskproAppProvider>
-            <StoreProvider>
-                <HashRouter>
-                    <App />
-                </HashRouter>
-            </StoreProvider>
+            <HashRouter>
+                <QueryClientProvider client={queryClient}>
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <ErrorBoundary FallbackComponent={ErrorFallback}>
+                            <App />
+                        </ErrorBoundary>
+                    </Suspense>
+                </QueryClientProvider>
+            </HashRouter>
         </DeskproAppProvider>
-    </React.StrictMode>,
-    document.getElementById("root")
+    </StrictMode>,
 );

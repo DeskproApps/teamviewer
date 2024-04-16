@@ -1,1 +1,0 @@
-export { TeamViewerLink } from "./TeamViewerLink";

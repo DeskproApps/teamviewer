@@ -1,6 +1,4 @@
-import { Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { ErrorBoundary } from "react-error-boundary";
 import {
     LoadingSpinner,
     useDeskproAppClient,
@@ -8,23 +6,13 @@ import {
     useDeskproLatestAppContext,
     useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
-import { useStore } from "./context/StoreProvider/hooks";
-import { DEFAULT_ERROR } from "./constants";
-import { HomePage, GlobalSignIn, LoadingAppPage } from "./pages";
-import { ErrorFallback } from "./components/Error";
-import { ErrorBlock, BaseContainer } from "./components/common";
+import { HomePage, GlobalSignInPage, LoadingAppPage } from "./pages";
 
 const App = () => {
     const { context } = useDeskproLatestAppContext();
     const { client } = useDeskproAppClient();
-    const [state] = useStore();
     const location = useLocation();
     const { pathname } = location;
-
-
-    if (state._error) {
-        console.error(`TeamViewer: ${state._error}`);
-    }
 
     useInitialisedDeskproAppClient((client) => {
         client?.registerElement("refreshButton", {
@@ -44,26 +32,13 @@ const App = () => {
     }
 
     return (
-        <Suspense fallback={<LoadingSpinner />}>
-            {state.isAuth && state._error && (
-                <BaseContainer>
-                    <ErrorBlock text={DEFAULT_ERROR} />
-                </BaseContainer>
-            )}
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-ignore */}
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <Routes>
-                    <Route path="/">
-                        <Route path="admin">
-                            <Route path="global-sign-in" element={<GlobalSignIn/>} />
-                        </Route>
-                        <Route path="/home" element={<HomePage/>} />
-                        <Route index element={<LoadingAppPage />} />
-                    </Route>
-                </Routes>
-            </ErrorBoundary>
-        </Suspense>
+        <Routes>
+            <Route path="/">
+                <Route path="admin/global-sign-in" element={<GlobalSignInPage/>}/>
+                <Route path="/home" element={<HomePage/>} />
+                <Route index element={<LoadingAppPage />} />
+            </Route>
+        </Routes>
     );
 }
 

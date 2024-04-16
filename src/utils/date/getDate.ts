@@ -1,5 +1,5 @@
 import format from "date-fns/format";
-import { DateTime } from "../../services/teamviewer/types";
+import { DateTime } from "../../types";
 
 const getDate = (date?: DateTime): string => {
     if (!date) {

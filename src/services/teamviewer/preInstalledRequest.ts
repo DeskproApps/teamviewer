@@ -2,7 +2,8 @@ import { IDeskproClient, adminGenericProxyFetch } from "@deskpro/app-sdk";
 import every from "lodash/every";
 import { BASE_URL } from "./constants";
 import type { ProxyResponse } from "@deskpro/app-sdk";
-import { AuthTokens, PreInstalledRequest, FetchOptions } from "./types";
+import type { PreInstalledRequest, FetchOptions } from "../../types";
+import type { AuthTokens } from "./types";
 
 export const isResponseError = (response: ProxyResponse) => (response.status < 200 || response.status >= 400);
 

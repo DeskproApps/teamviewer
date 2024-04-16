@@ -1,0 +1,1 @@
+export { TeamViewerLogo } from "./TeamViewerLogo";

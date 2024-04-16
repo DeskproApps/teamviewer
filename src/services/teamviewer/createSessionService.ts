@@ -3,7 +3,7 @@ import { baseRequest } from "./baseRequest";
 import { Session } from "./types";
 
 const createSessionService = (client: IDeskproClient) => {
-    // This response conatins the new session URLs decoded from the Location header
+    // This response contains the new session URLs decoded from the Location header
     return baseRequest<Session>(client, {
         url: "/sessions",
         method: "POST",

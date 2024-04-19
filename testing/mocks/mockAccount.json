@@ -1,0 +1,24 @@
+{
+  "userid": "u11293276",
+  "email": "jon.snow@nightwatch.org",
+  "name": "Jon Snow",
+  "company_name": "Deskpro Ltd.",
+  "profilepicture_url": "https://profilepicturedl.teamviewer.com/a-11293276/ddd4bde7-6808-4fb2-9949-b28ff20296ed/[size]",
+  "license": {
+    "version": -1,
+    "type": "Corporate",
+    "teamViewerLicenseId": "f23cd4f1-3a78-4e72-b872-2db3f98509fd",
+    "isactive": true
+  },
+  "email_validated": true,
+  "email_language": "uk",
+  "available_licenses": [
+    {
+      "version": -1,
+      "type": "Corporate",
+      "teamViewerLicenseId": "f23cd4f1-3a78-4e72-b872-2db3f98509fd",
+      "isactive": true
+    }
+  ],
+  "custom_field_has_paid_license": "True"
+}

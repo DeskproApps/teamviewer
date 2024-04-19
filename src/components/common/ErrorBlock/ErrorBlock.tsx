@@ -3,7 +3,7 @@ import { P5 } from "@deskpro/deskpro-ui";
 import type { FC, JSX } from "react";
 import type { Maybe } from "../../../types";
 
-type Props = {
+export type Props = {
     text?: Maybe<string|JSX.Element|Array<string|JSX.Element>>,
 }
 

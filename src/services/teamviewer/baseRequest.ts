@@ -71,8 +71,6 @@ const baseRequest: Request = async (client, {
     if (res.status < 200 || res.status >= 400) {
         let errorData;
 
-        console.log(">>> request:", res);
-
         try {
             errorData = await res.json();
         } catch (e) {

@@ -20,8 +20,6 @@ const ErrorFallback: FC<Props> = ({ error }) => {
 
     // eslint-disable-next-line no-console
     console.error(consoleMessage || error);
-    console.log(">>> error:");
-    console.dir(error);
 
     return (
         <BaseContainer>

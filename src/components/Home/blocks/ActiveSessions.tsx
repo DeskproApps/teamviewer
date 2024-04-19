@@ -2,16 +2,22 @@ import { Button, Stack } from "@deskpro/deskpro-ui";
 import { Title, HorizontalDivider, Property } from "@deskpro/app-sdk";
 import { TeamViewerLogo } from "../../common";
 import { getDate } from "../../../utils/date";
-import { Session } from "../../../services/teamviewer/types";
+import type { FC } from "react";
+import type { Session } from "../../../services/teamviewer/types";
 
-type ActiveSessionsProps = {
+export type Props = {
     sessions: Session[],
     onCreate: () => void,
     onInsertLink: (sessionLink: Session["end_customer_link"]) => void,
     onDelete: (code: Session["code"]) => void,
 };
 
-const ActiveSessions = ({ sessions, onCreate, onDelete, onInsertLink }: ActiveSessionsProps) => (
+const ActiveSessions: FC<Props> = ({
+    sessions,
+    onCreate,
+    onDelete,
+    onInsertLink,
+}) => (
     <>
         <Title
             title={`Active Sessions (${sessions.length})`}

@@ -3,9 +3,10 @@ import { P1, Button, AnchorButton } from "@deskpro/deskpro-ui";
 import { nbsp } from "../../../constants";
 import { Invalid } from "../../common";
 import type { FC } from "react";
+import type { AnyIcon } from "@deskpro/deskpro-ui";
 import type { Maybe } from "../../../types";
 
-type Props = {
+export type Props = {
     url: string,
     error: Maybe<string>,
     isLoading: boolean,
@@ -23,7 +24,7 @@ const Login: FC<Props> = ({ url, isLoading, signIn, cancel, error }) => {
                 href={url}
                 target="_blank"
                 text="Sign-In"
-                icon={faSignIn}
+                icon={faSignIn as AnyIcon}
                 intent="secondary"
                 size="small"
                 disabled={!url}
@@ -39,10 +40,7 @@ const Login: FC<Props> = ({ url, isLoading, signIn, cancel, error }) => {
                 />
             )}
             {(!isLoading && error) && (
-                <>
-                    {nbsp}
-                    <Invalid>{error}</Invalid>
-                </>
+                <>{nbsp}<Invalid>{error}</Invalid></>
             )}
         </>
     );

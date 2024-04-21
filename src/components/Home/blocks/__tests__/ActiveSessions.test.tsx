@@ -10,7 +10,7 @@ const renderActiveSessions = (props?: Partial<Props>) => render((
         onInsertLink={props?.onInsertLink || jest.fn()}
         onDelete={props?.onDelete || jest.fn()}
     />
-), { wrappers: { theme: true } });
+), { wrappers: { theme: true, router: true } });
 
 describe("Home", () => {
     describe("ActiveSessions", () => {

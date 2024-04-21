@@ -37,10 +37,32 @@ export type Session = {
     support_session_type: SessionType,
     end_customer_link: string,
     supporter_link: string,
+    description: string;
+    end_customer: {
+        email: string;
+        name: string;
+    };
+    waiting_message: string;
+    webclient_supporter_link: string;
 };
 
 export type UserMinimal = {
     id: string,
     name: string,
     email: string,
+};
+
+export type SessionInput = {
+    valid_until?: string;
+    groupid?: string;
+    groupname?: string;
+    waiting_message?: string;
+    description?: string;
+    end_customer: {
+        name?: string;
+        email?: string;
+    };
+    assigned_userid?: string;
+    custom_api?: string;
+    support_session_type?: string;
 };

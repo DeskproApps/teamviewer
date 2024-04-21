@@ -1,8 +1,9 @@
 {
   "type": "ticket",
   "settings": {
-    "space_url": "https://space.test",
-    "client_id": "this-is-client-id"
+    "client_id": "thisIsClientId",
+    "client_secret": "thisIsClientSecret",
+    "global_access_token": "thisIsGlobalAccessToken"
   },
   "data": {
     "ticket": {
@@ -13,22 +14,22 @@
       "creationSystem": "web.person.portal",
       "primaryUser": {
         "id": "1000",
-        "email": "cormac.mccarthy@example.org",
+        "email": "ivan.mazepa@cossacks.org",
         "emails": [
-          "cormac.mccarthy@example.org"
+          "ivan.mazepa@cossacks.org"
         ],
-        "firstName": "Dorcas",
-        "lastName": "McCullough",
-        "displayName": "Cormac McCarthy",
-        "language": "English",
-        "locale": "en-US"
+        "firstName": "Ivan",
+        "lastName": "Mazepa",
+        "displayName": "Ivan Mazepa",
+        "language": "Ukrainian",
+        "locale": "uk_UA"
       }
     },
     "app": {
       "id": "35",
       "instanceId": "3",
-      "name": "@deskpro-apps/space",
-      "title": "Space"
+      "name": "@deskpro-apps/teamviewer",
+      "title": "TeamViewer"
     },
     "env": {
       "release": "0.0.0",

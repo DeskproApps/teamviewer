@@ -1,6 +1,7 @@
-import { Stack } from "@deskpro/deskpro-ui";
-import { Title, TwoProperties, HorizontalDivider } from "@deskpro/app-sdk";
-import { getDate } from "../../../utils/date";
+import { Fragment } from "react";
+import { Title, TwoProperties, HorizontalDivider, Property } from "@deskpro/app-sdk";
+import { format } from "../../../utils/date";
+import { DPNormalize } from "../../common";
 import type { FC } from "react";
 import type { Session } from "../../../services/teamviewer/types";
 
@@ -11,17 +12,21 @@ export type Props = {
 const ExpiredSessions: FC<Props> = ({ sessions }) => (
     <>
         <Title title={`Expired Sessions (${sessions.length})`}/>
-        {sessions.map(({ code, created_at, valid_until }) => (
-            <Stack key={code} vertical style={{ marginBottom: "15px" }}>
+        {sessions.map(({ code, created_at, valid_until, description }) => (
+            <Fragment key={code}>
                 <Title title={code} />
+                <Property
+                    label="Description"
+                    text={<DPNormalize text={description}/>}
+                />
                 <TwoProperties
                     leftLabel="Created"
-                    leftText={getDate(created_at)}
+                    leftText={format(created_at)}
                     rightLabel="Expired"
-                    rightText={getDate(valid_until)}
+                    rightText={format(valid_until)}
                 />
-                <HorizontalDivider style={{ width: "100%" }}/>
-            </Stack>
+                <HorizontalDivider style={{ marginBottom: 15 }}/>
+            </Fragment>
         ))}
     </>
 );

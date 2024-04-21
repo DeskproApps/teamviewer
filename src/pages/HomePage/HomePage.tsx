@@ -1,65 +1,24 @@
-import { FC, useState, useCallback } from "react";
-import { isString } from "lodash";
-import {
-    LoadingSpinner,
-    useDeskproAppClient,
-} from "@deskpro/app-sdk";
-import { closeSessionService, createSessionService } from "../../services/teamviewer";
-import { useAsyncError } from "../../hooks";
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { LoadingSpinner } from "@deskpro/app-sdk";
+import { useSession, useRegisterElements } from "../../hooks";
 import { useSessions } from "./hooks";
-import { queryClient } from "../../query";
-import { RATE_LIMIT_ERROR } from "../../constants";
 import { Home } from "../../components";
-import type { Maybe } from "../../types";
-import type { Session } from "../../services/teamviewer/types";
+import type { FC } from "react";
 
 const HomePage: FC = () => {
-    const { client } = useDeskproAppClient();
-    const { asyncErrorHandler } = useAsyncError();
+    const navigate = useNavigate();
+    const { isLoading: isLoadingSession, onDelete, onInsertLink } = useSession();
     const {
         activeSessions,
         expiredSessions,
         isLoading: isLoadingSessions,
     } = useSessions();
-    const [isLoadingCreate, setIsLoadingCreate] = useState<boolean>(false);
-    const [rateLimitError, setRateLimitError] = useState<Maybe<string>>(null);
-    const isLoading = isLoadingSessions || isLoadingCreate;
+    const isLoading = isLoadingSessions || isLoadingSession;
 
-    const onCreate = useCallback(() => {
-        if (!client) {
-            return;
-        }
+    const onNavigateToCreate = useCallback(() => navigate("/sessions/create"), [navigate]);
 
-        setIsLoadingCreate(true);
-        setRateLimitError(null);
-
-        createSessionService(client)
-            .then((res) => {
-                if (isString(res) && `${res}`.includes("license limitations")) {
-                    setRateLimitError(RATE_LIMIT_ERROR);
-                }
-                return;
-            })
-            .then(() => queryClient.invalidateQueries())
-            .catch(asyncErrorHandler)
-            .finally(() => setIsLoadingCreate(false));
-    }, [client, asyncErrorHandler]);
-
-    const onDelete = useCallback((code: Session["code"]) => {
-        if (!client) { return }
-
-        setRateLimitError(null);
-        setIsLoadingCreate(true);
-
-        closeSessionService(client, code)
-            .then(() => queryClient.invalidateQueries())
-            .catch(asyncErrorHandler)
-            .finally(() => setIsLoadingCreate(false))
-    }, [client, asyncErrorHandler]);
-
-    const onInsertLink = useCallback((sessionLink: Session["end_customer_link"]) => {
-        client?.deskpro().appendLinkToActiveTicketReplyBox(sessionLink, sessionLink);
-    }, [client]);
+    useRegisterElements();
 
     if (isLoading) {
         return (<LoadingSpinner />);
@@ -67,12 +26,11 @@ const HomePage: FC = () => {
 
     return (
         <Home
-            onCreate={onCreate}
             onDelete={onDelete}
             onInsertLink={onInsertLink}
-            rateLimitError={rateLimitError}
             activeSessions={activeSessions}
             expiredSessions={expiredSessions}
+            onNavigateToCreate={onNavigateToCreate}
         />
     );
 };

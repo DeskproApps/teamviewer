@@ -8,3 +8,4 @@ export { getUsersService } from "./getUsersService";
 export { closeSessionService } from "./closeSessionService";
 export { refreshTokenService } from "./refreshTokenService";
 export { refreshGlobalTokenService } from "./refreshGlobalTokenService";
+export { getSessionService } from "./getSessionService";

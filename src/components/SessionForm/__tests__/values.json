@@ -1,0 +1,7 @@
+{
+  "description": "Some description",
+  "waitingMessage": "Some waiting message",
+  "name": "Ivan Mazepa",
+  "email": "ivan.mazepa@cossacks.org",
+  "valid_until": "2024-04-23T12:00:00Z"
+}

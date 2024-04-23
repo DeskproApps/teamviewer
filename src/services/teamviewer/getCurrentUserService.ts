@@ -1,7 +1,8 @@
 import { IDeskproClient } from "@deskpro/app-sdk";
 import { baseRequest } from "./baseRequest";
 import { preInstalledRequest } from "./preInstalledRequest";
-import { Account, Settings } from "./types";
+import type { Settings } from "../../types";
+import type { Account } from "./types";
 
 const getCurrentUserService = (
     client: IDeskproClient,

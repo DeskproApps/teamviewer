@@ -1,0 +1,32 @@
+{
+  "sessions": [
+    {
+      "code": "s119-457-589",
+      "state": "Open",
+      "groupid": "g272032545",
+      "assigned_userid": "u11293276",
+      "assigned_at": "2024-04-16T20:40:38Z",
+      "end_customer_link": "https://get.teamviewer.com/v15/s119457589",
+      "supporter_link": "https://get.teamviewer.com/v15/s119457589-AEG8iPEEzz96",
+      "webclient_supporter_link": "https://login.teamviewer.com/Connect/IndexByol?sessioncode=s119457589&servicequeuetoken=AEG8iPEEzz96&lang=en&displayName=Jon+Snow",
+      "created_at": "2024-04-16T20:40:38Z",
+      "valid_until": "2024-04-17T20:40:38Z",
+      "online": false,
+      "support_session_type": "Default"
+    },
+    {
+      "code": "s184-827-508",
+      "state": "Open",
+      "groupid": "g272032545",
+      "assigned_userid": "u11293276",
+      "assigned_at": "2024-04-16T20:39:19Z",
+      "end_customer_link": "https://get.teamviewer.com/v15/s184827508",
+      "supporter_link": "https://get.teamviewer.com/v15/s184827508-gXRHI1szU318",
+      "webclient_supporter_link": "https://login.teamviewer.com/Connect/IndexByol?sessioncode=s184827508&servicequeuetoken=gXRHI1szU318&lang=en&displayName=Jon+Snow",
+      "created_at": "2024-04-16T20:39:19Z",
+      "valid_until": "2024-04-17T20:39:19Z",
+      "online": false,
+      "support_session_type": "Default"
+    }
+  ]
+}

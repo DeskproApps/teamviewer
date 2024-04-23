@@ -12,18 +12,19 @@ import {
 import { getQueryParams } from "../utils";
 import { DEFAULT_ERROR } from "../constants";
 import { getCurrentUserService } from "../services/teamviewer";
-import { Account, Settings, AuthTokens, FetchOptions } from "../services/teamviewer/types";
+import type { Maybe, Settings, FetchOptions } from "../types";
+import type { Account, AuthTokens } from "../services/teamviewer/types";
 
 export const useGlobalSignIn = () => {
     const { client } = useDeskproAppClient();
-    const [ settings, setSettings ] = useState<Settings|null>(null);
-    const [ callbackUrl, setCallbackUrl ] = useState<string|null>(null);
-    const [ poll, setPoll ] = useState<(() => Promise<{ token: string }>)|null>(null);
+    const [ settings, setSettings ] = useState<Maybe<Settings>>(null);
+    const [ callbackUrl, setCallbackUrl ] = useState<Maybe<string>>(null);
+    const [ poll, setPoll ] = useState<Maybe<(() => Promise<{ token: string }>)>>(null);
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ isBlocking, setIsBlocking ] = useState<boolean>(true);
-    const [ accessCode, setAccessCode ] = useState<string|null>(null);
-    const [ user, setUser ] = useState<Account|null>(null);
-    const [error, setError] = useState<null|string>(null);
+    const [ accessCode, setAccessCode ] = useState<Maybe<string>>(null);
+    const [ user, setUser ] = useState<Maybe<Account>>(null);
+    const [error, setError] = useState<Maybe<string>>(null);
 
     const key = useMemo(() => uuidv4(), []);
     const globalAccessToken = get(settings, ["global_access_token"], "");

@@ -4,7 +4,7 @@ import { BASE_URL, placeholders } from "./constants";
 import { getQueryParams } from "../../utils";
 import { refreshTokenService } from "./refreshTokenService";
 import { TeamViewerError } from "./TeamViewerError";
-import type { Request } from "./types";
+import type { Request } from "../../types";
 
 const baseRequest: Request = async (client, {
     url,

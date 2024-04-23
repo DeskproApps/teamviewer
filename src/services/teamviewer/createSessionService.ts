@@ -1,19 +1,17 @@
 import { IDeskproClient } from "@deskpro/app-sdk";
 import { baseRequest } from "./baseRequest";
-import { Session } from "./types";
+import { Session, SessionInput } from "./types";
 
-const createSessionService = (client: IDeskproClient) => {
-    const createSessionResponse = baseRequest<Session>(client, {
+const createSessionService = (client: IDeskproClient, data: SessionInput) => {
+    // This response contains the new session URLs decoded from the Location header
+    return baseRequest<Session>(client, {
         url: "/sessions",
         method: "POST",
-        data: { groupname: "Deskpro" },
+        data,
         headers: {
             "X-Proxy-Redirect-As-Success": "1"
         },
     });
-
-    // This response conatins the new session URLs decoded from the Location header
-    return createSessionResponse;
 };
 
 export { createSessionService };

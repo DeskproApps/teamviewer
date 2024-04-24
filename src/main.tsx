@@ -9,20 +9,21 @@ import { ErrorFallback } from "./components";
 import { App } from "./App";
 import "@deskpro/deskpro-ui/dist/deskpro-ui.css";
 import "@deskpro/deskpro-ui/dist/deskpro-custom-icons.css";
+import "iframe-resizer/js/iframeResizer.contentWindow.js";
 
-const root = ReactDOM.createRoot(document.getElementById('root') as Element);
+const root = ReactDOM.createRoot(document.getElementById("root") as Element);
 root.render(
-    <StrictMode>
-        <DeskproAppProvider>
-            <HashRouter>
-                <QueryClientProvider client={queryClient}>
-                    <Suspense fallback={<LoadingSpinner />}>
-                        <ErrorBoundary FallbackComponent={ErrorFallback}>
-                            <App />
-                        </ErrorBoundary>
-                    </Suspense>
-                </QueryClientProvider>
-            </HashRouter>
-        </DeskproAppProvider>
-    </StrictMode>,
+  <StrictMode>
+    <DeskproAppProvider>
+      <HashRouter>
+        <QueryClientProvider client={queryClient}>
+          <Suspense fallback={<LoadingSpinner />}>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <App />
+            </ErrorBoundary>
+          </Suspense>
+        </QueryClientProvider>
+      </HashRouter>
+    </DeskproAppProvider>
+  </StrictMode>
 );

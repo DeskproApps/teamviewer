@@ -8,6 +8,7 @@ import {
     useDeskproAppClient,
     useDeskproAppEvents,
 } from "@deskpro/app-sdk";
+import { AppContainer } from "./components/common";
 import {
     HomePage,
     LoadingAppPage,
@@ -56,7 +57,7 @@ const App = () => {
     }
 
     return (
-        <>
+        <AppContainer isAdmin={isAdmin}>
             <Routes>
                 <Route path="/admin/global-sign-in" element={<GlobalSignInPage/>}/>
                 <Route path="/home" element={<HomePage/>} />
@@ -64,8 +65,7 @@ const App = () => {
                 <Route path="/sessions/view/:code" element={<ViewSessionPage/>} />
                 <Route index element={<LoadingAppPage />} />
             </Routes>
-            {!isAdmin && (<><br/><br/><br/></>)}
-        </>
+        </AppContainer>
     );
 }
 

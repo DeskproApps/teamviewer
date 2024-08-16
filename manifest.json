@@ -3,7 +3,7 @@
   "title": "TeamViewer",
   "description": "Create TeamViewer sessions and share them with your users in ticket.",
   "appStoreUrl": "https://www.deskpro.com/product-embed/apps/teamviewer",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "scope": "agent",
   "isSingleInstall": false,
   "hasDevMode": true,

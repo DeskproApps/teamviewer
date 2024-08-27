@@ -1,6 +1,5 @@
-import { useMemo } from "react";
 import { match } from "ts-pattern";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
 import {
     LoadingSpinner,
@@ -25,10 +24,8 @@ import type { EventPayload } from "./types";
 
 const App = () => {
     const navigate = useNavigate();
-    const { pathname } = useLocation();
     const { client } = useDeskproAppClient();
     const { isLoading, onDelete, onInsertLink } = useSession();
-    const isAdmin = useMemo(() => pathname.includes("/admin/"), [pathname]);
 
     const debounceElementEvent = useDebouncedCallback((_, __, payload: EventPayload) => {
         return match(payload.type)
@@ -56,16 +53,13 @@ const App = () => {
     }
 
     return (
-        <>
-            <Routes>
-                <Route path="/admin/global-sign-in" element={<GlobalSignInPage/>}/>
-                <Route path="/home" element={<HomePage/>} />
-                <Route path="/sessions/create" element={<CreateSessionPage/>} />
-                <Route path="/sessions/view/:code" element={<ViewSessionPage/>} />
-                <Route index element={<LoadingAppPage />} />
-            </Routes>
-            {!isAdmin && (<><br/><br/><br/></>)}
-        </>
+        <Routes>
+            <Route path="/admin/global-sign-in" element={<GlobalSignInPage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/sessions/create" element={<CreateSessionPage />} />
+            <Route path="/sessions/view/:code" element={<ViewSessionPage />} />
+            <Route index element={<LoadingAppPage />} />
+        </Routes>
     );
 }
 

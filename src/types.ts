@@ -1,5 +1,5 @@
 import type { To } from "react-router-dom";
-import type { Context, IDeskproClient, V2ProxyRequestInitBody } from "@deskpro/app-sdk";
+import type { Context, IDeskproClient } from "@deskpro/app-sdk";
 
 /** Common types */
 export type Maybe<T> = T | undefined | null;
@@ -27,7 +27,7 @@ export type PreRequestParams = {
     url: string,
     settings: Settings,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data?: Record<string, any>|RequestInit["body"]|V2ProxyRequestInitBody["body"]
+    data?: Record<string, any>|RequestInit["body"],
     method?: ApiRequestMethod,
 };
 
@@ -35,9 +35,6 @@ export type PreInstalledRequest = <T>(
     client: IDeskproClient,
     params: PreRequestParams,
 ) => Promise<T>;
-
-// V2ProxyRequestInit
-export type FetchOptions = Pick<RequestParams, "method"|"headers"> & V2ProxyRequestInitBody;
 
 export type Request = <T>(
     client: IDeskproClient,

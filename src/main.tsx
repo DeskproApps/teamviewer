@@ -1,6 +1,7 @@
+import * as Sentry from '@sentry/react';
+import './instrument';
 import { Suspense, StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { ErrorBoundary } from "react-error-boundary";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter } from "react-router-dom";
 import { DeskproAppProvider, LoadingSpinner } from "@deskpro/app-sdk";
@@ -21,9 +22,9 @@ root.render(
         <HashRouter>
           <QueryClientProvider client={queryClient}>
             <Suspense fallback={<LoadingSpinner />}>
-              <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <Sentry.ErrorBoundary FallbackComponent={ErrorFallback}>
                 <App />
-              </ErrorBoundary>
+              </Sentry.ErrorBoundary>
             </Suspense>
           </QueryClientProvider>
         </HashRouter>

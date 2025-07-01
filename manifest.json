@@ -43,7 +43,7 @@
       "default": "",
       "type": "app_embedded",
       "options": { "entrypoint": "#/admin/global-sign-in" },
-      "isRequired": true,
+      "isRequired": false,
       "isBackendOnly": true,
       "order": 30
     }

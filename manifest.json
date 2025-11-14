@@ -53,12 +53,34 @@
       {
         "url": "https://login.teamviewer.com/oauth2/authorize",
         "methods": ["GET"],
-        "timeout": 10
+        "timeout": 10,
+        "settingsInjection": {
+          "client_id": {
+            "body": ["client_id"]
+          },
+          "client_secret": {
+            "body": ["client_secret"]
+          },
+          "global_access_token": {
+            "body": ["refresh_token"]
+          }
+        }
       },
       {
         "url": "https://webapi.teamviewer.com/api/v1/.*",
         "methods": ["GET", "POST", "PUT"],
-        "timeout": 10
+        "timeout": 10,
+        "settingsInjection": {
+          "client_id": {
+            "body": ["client_id"]
+          },
+          "client_secret": {
+            "body": ["client_secret"]
+          },
+          "global_access_token": {
+            "body": ["refresh_token"]
+          }
+        }
       }
     ]
   }

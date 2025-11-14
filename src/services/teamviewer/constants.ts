@@ -5,4 +5,4 @@ export const placeholders = {
     GLOBAL_REFRESH_TOKEN: `__global_access_token.json("[refreshToken]")__`,
     ACCESS_TOKEN: "[[oauth/global/access_token]]",
     REFRESH_TOKEN: "[[oauth/global/refresh_token]]",
-};
+} as const;

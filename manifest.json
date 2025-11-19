@@ -52,7 +52,7 @@
     "whitelist": [
       {
         "url": "https://login.teamviewer.com/oauth2/authorize",
-        "methods": ["GET"],
+        "methods": ["GET", "POST"],
         "timeout": 10,
         "settingsInjection": {
           "client_id": {
